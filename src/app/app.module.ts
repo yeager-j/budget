@@ -21,16 +21,16 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { GoalsComponent } from './goals/goals.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/overview' },
   { path: 'overview', component: OverviewComponent },
   { path: 'expenses/:id', component: ExpensesComponent },
   { path: 'expenses', component: ExpensesComponent },
-  { path: 'goals', component: GoalsComponent }
+  { path: 'goals', component: GoalsComponent },
+  { path: 'analytics', component: AnalyticsComponent }
 ];
-
-console.log(environment.firebase);
 
 @NgModule({
   declarations: [
@@ -39,7 +39,8 @@ console.log(environment.firebase);
     OverviewComponent,
     ExpensesComponent,
     AddExpenseComponent,
-    GoalsComponent
+    GoalsComponent,
+    AnalyticsComponent
   ],
   imports: [
     BrowserModule,

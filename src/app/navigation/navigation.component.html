@@ -1,19 +1,15 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav
-    #drawer
-    class="sidenav"
-    fixedInViewport="true"
-    [attr.role]="isHandset ? 'dialog' : 'navigation'"
-    [mode]="'over'">
+<mat-sidenav-container class="sidenav-container" (backdropClick)="drawer.close()">
+  <mat-sidenav #drawer class="sidenav" [attr.role]="isHandset ? 'dialog' : 'navigation'">
     <mat-toolbar color="primary">Navigation</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item routerLink="/overview" (click)="drawer.close()">Overview</a>
       <a mat-list-item routerLink="/expenses" (click)="drawer.close()">Expenses</a>
       <a mat-list-item routerLink="/goals" (click)="drawer.close()">Goals</a>
+      <a mat-list-item routerLink="/analytics" (click)="drawer.close()">Analytics</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary" style="position: fixed">
+    <mat-toolbar color="primary" style="position: fixed; z-index: 5;">
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -23,5 +19,9 @@
       </button>
       <span>Budget</span>
     </mat-toolbar>
+
+    <div style="margin-top: 64px">
+      <router-outlet></router-outlet>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
