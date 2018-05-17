@@ -10,7 +10,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import {
   MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule,
   MatProgressSpinnerModule, MatCardModule, MatSelectModule, MatInputModule, MatDialogModule, MatDatepickerModule,
-  MatNativeDateModule, DateAdapter
+  MatNativeDateModule, DateAdapter, MatProgressBarModule
 } from '@angular/material';
 import { OverviewComponent } from './overview/overview.component';
 import { ExpensesComponent } from './expenses/expenses.component';
@@ -26,7 +26,8 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/overview' },
   { path: 'overview', component: OverviewComponent },
   { path: 'expenses/:id', component: ExpensesComponent },
-  { path: 'expenses', component: ExpensesComponent }
+  { path: 'expenses', component: ExpensesComponent },
+  { path: 'goals', component: GoalsComponent }
 ];
 
 console.log(environment.firebase);
@@ -57,6 +58,7 @@ console.log(environment.firebase);
     MatIconModule,
     MatListModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatCardModule,
     MatSelectModule,
     MatInputModule,

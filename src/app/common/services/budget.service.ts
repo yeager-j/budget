@@ -50,4 +50,16 @@ export class BudgetService {
       return this.db.collection('periods').doc(period.id).collection('expenses').doc(id).delete();
     }));
   }
+
+  getGoals() {
+    return this.db.collection('goals')
+      .snapshotChanges()
+      .pipe(
+        map(actions => actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        }))
+      );
+  }
 }

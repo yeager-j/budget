@@ -1,3 +1,27 @@
-<p>
-  goals works!
-</p>
+<div class="goals-container">
+  <div fxLayout="row wrap" fxLayout.xs="column">
+    <div fxFlex="33" fxFlex.xs="100" *ngFor="let goal of goals | async" style="padding: 5px;">
+      <mat-card>
+        <mat-card-header>
+          <div fxLayout="row" fxFlex>
+            <div fxFlex="50">
+              <mat-card-title>{{ goal.name }}</mat-card-title>
+              <mat-card-subtitle>Goal: {{ goal.goal | currency }}</mat-card-subtitle>
+            </div>
+            <div fxFlex="50">
+              <mat-card-subtitle>Commitment: {{ goal.commitment | currency }}</mat-card-subtitle>
+              <mat-card-subtitle>Balance: {{ goal.balance | currency }}</mat-card-subtitle>
+            </div>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <mat-progress-bar mode="determinate" color="primary" [value]="(goal.balance / goal.goal) * 100"></mat-progress-bar>
+            <p style="text-align: center;">
+              <span class="mat-headline">{{ round(((goal.goal - goal.balance) / goal.commitment) * 2) }}</span><br>Weeks To Go!</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

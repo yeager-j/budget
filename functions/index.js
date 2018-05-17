@@ -25,7 +25,7 @@ exports.createExpense = functions.firestore
         snapshot.forEach(doc => {
           if (doc.data().name === data.category) {
             doc.ref.update({
-              balance: doc.data().balance + data.amount
+              balance: +doc.data().balance + +data.amount
             });
           }
         });
