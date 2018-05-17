@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="center center" class="overview">
   <h1>Welcome, Jackson</h1>
 
-  <h2>You have <span [ngClass]="{ 'mat-accent': (remainingBudget | async) > 0, 'mat-warn': (remainingBudget | async) <= 0 }">${{ remainingBudget | async }}</span> left in your budget.</h2>
+  <h2>You have <span [ngClass]="{ 'positive': (remainingBudget | async) > 0, 'negative': (remainingBudget | async) <= 0 }">${{ remainingBudget | async }} ({{ remainingBudgetPercent | async }}%)</span> left in your budget.</h2>
 
-  <button mat-button (click)="viewExpenses()" [disabled]="!period">View Expenses</button>
+  <a mat-button color="primary" routerLink="/expenses" [disabled]="!loaded">View Expenses</a>
 </div>

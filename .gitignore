@@ -7,6 +7,8 @@
 
 # dependencies
 /node_modules
+functions/node_modules
+functions/budget-8ed96-firebase-adminsdk-mg4oe-0a1b9a3ded.json
 
 # IDEs and editors
 /.idea

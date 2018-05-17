@@ -1,4 +1,10 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <app-navigation></app-navigation>
 
-<router-outlet></router-outlet>
+<div style="margin-top: 64px">
+  <router-outlet></router-outlet>
+</div>
+
+<button mat-fab style="position: fixed; bottom: 15px; right: 15px;" (click)="openAddExpenseDialog()">
+  <mat-icon>add</mat-icon>
+</button>

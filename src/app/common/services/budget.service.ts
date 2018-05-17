@@ -40,6 +40,14 @@ export class BudgetService {
   }
 
   addExpense(data) {
-    this.getCurrentPeriod().pipe(flatMap(period => this.db.collection('periods').doc(period.id).collection('expenses').add(data)));
+    return this.getCurrentPeriod().pipe(flatMap(period => {
+      return this.db.collection('periods').doc(period.id).collection('expenses').add(data);
+    }));
+  }
+
+  removeExpense(id) {
+    return this.getCurrentPeriod().pipe(flatMap(period => {
+      return this.db.collection('periods').doc(period.id).collection('expenses').doc(id).delete();
+    }));
   }
 }
