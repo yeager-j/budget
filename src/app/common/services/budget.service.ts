@@ -21,7 +21,7 @@ export class BudgetService {
         const data = a.payload.doc.data();
         const id = a.payload.doc.id;
         return { id, ...data };
-      })[0]));
+      })[actions.length - 1]));
   }
 
   getCurrentExpenses() {
