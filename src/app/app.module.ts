@@ -22,6 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { GoalsComponent } from './goals/goals.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
+import { AddGoalComponent } from './add-goal/add-goal.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/overview' },
@@ -40,7 +41,8 @@ const routes: Routes = [
     ExpensesComponent,
     AddExpenseComponent,
     GoalsComponent,
-    AnalyticsComponent
+    AnalyticsComponent,
+    AddGoalComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +71,6 @@ const routes: Routes = [
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [AddExpenseComponent]
+  entryComponents: [AddExpenseComponent, AddGoalComponent]
 })
 export class AppModule { }

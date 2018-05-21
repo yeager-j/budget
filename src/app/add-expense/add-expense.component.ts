@@ -27,7 +27,6 @@ export class AddExpenseComponent implements OnInit {
 
   addExpense() {
     if (this.expenseForm.valid) {
-      console.log(this.expenseForm.value);
       this.budgetService.addExpense(this.expenseForm.value).subscribe(result => {
         this.dialog.close(result);
       });

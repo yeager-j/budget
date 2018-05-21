@@ -62,4 +62,12 @@ export class BudgetService {
         }))
       );
   }
+
+  addGoal(data) {
+    return this.db.collection('goals').add(data);
+  }
+
+  removeGoal(id) {
+    return this.db.collection('goals').doc(id).delete();
+  }
 }

@@ -17,11 +17,18 @@
         <mat-card-content>
           <div fxLayout="column" fxLayoutAlign="center center">
             <mat-progress-bar mode="determinate" color="primary" [value]="(goal.balance / goal.goal) * 100"></mat-progress-bar>
-            <p style="text-align: center;">
+            <p style="text-align: center; margin-top: 5px;">
               <span class="mat-headline">{{ round(((goal.goal - goal.balance) / goal.commitment) * 2) }}</span><br>Weeks To Go!</p>
           </div>
         </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="warn" (click)="removeGoal(goal.id)">Remove</button>
+        </mat-card-actions>
       </mat-card>
     </div>
   </div>
 </div>
+
+<button mat-fab style="position: fixed; bottom: 15px; right: 15px; z-index: 10" (click)="openAddGoalDialog()">
+  <mat-icon>add</mat-icon>
+</button>
