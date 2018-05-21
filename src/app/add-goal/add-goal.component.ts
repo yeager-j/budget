@@ -25,7 +25,7 @@ export class AddGoalComponent implements OnInit {
 
   addGoal() {
     if (this.goalForm.valid) {
-      this.budgetService.addGoal(this.goalForm.value).then(result => {
+      this.budgetService.addGoal(this.goalForm.value).subscribe(result => {
         this.dialog.close(result);
       });
     }
