@@ -1,7 +1,12 @@
 <div fxLayout="column" fxLayoutAlign="center center" class="overview">
-  <h1>Welcome, Jackson</h1>
+  <img [src]="(afAuth.user | async)?.photoURL" class="profile" />
 
+  <h1>Welcome, {{ (afAuth.user | async)?.displayName }}</h1>
   <h2>You have <span [ngClass]="{ 'positive': (remainingBudget | async) > 0, 'negative': (remainingBudget | async) <= 0 }">${{ remainingBudget | async }} ({{ remainingBudgetPercent | async }}%)</span> left in your budget.</h2>
 
   <a mat-button color="primary" routerLink="/expenses" [disabled]="!loaded">View Expenses</a>
 </div>
+
+<button mat-fab style="position: fixed; bottom: 15px; right: 15px; z-index: 10" (click)="openAddPeriodDialog()">
+  <mat-icon>add</mat-icon>
+</button>

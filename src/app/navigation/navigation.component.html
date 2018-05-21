@@ -18,10 +18,20 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>Budget</span>
+      <div fxFlex></div>
+      <button mat-button (click)="logout()">Logout</button>
     </mat-toolbar>
 
     <div style="margin-top: 50px">
-      <router-outlet></router-outlet>
+      <div *ngIf="afAuth.user | async as user; else showLogin">
+        <router-outlet></router-outlet>
+      </div>
+      <ng-template #showLogin>
+        <h2>Welcome!</h2>
+        <p>Please sign in.</p>
+
+        <button mat-raised-button color="primary" (click)="login()">Sign In</button>
+      </ng-template>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

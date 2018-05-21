@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>Add Period</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="periodForm" id="periodForm" (ngSubmit)="addPeriod()">
+    <div fxLayout="row wrap">
+      <mat-form-field fxFlex="100">
+        <input matInput placeholder="Income" formControlName="income" type="number" step="0.01" />
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div fxFlex></div>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button color="primary" type="submit" form="periodForm">Add</button>
+</mat-dialog-actions>

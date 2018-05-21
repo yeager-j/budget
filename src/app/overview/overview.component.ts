@@ -4,6 +4,9 @@ import { BudgetService } from '../common/services/budget.service';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs/index';
+import { AddPeriodComponent } from '../add-period/add-period.component';
+import { MatDialog } from '@angular/material';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-overview',
@@ -16,7 +19,7 @@ export class OverviewComponent implements OnInit {
   remainingBudget: Observable<number>;
   remainingBudgetPercent: Subject<number> = new Subject<number>();
 
-  constructor(private budgetService: BudgetService, private router: Router) {
+  constructor(private budgetService: BudgetService, private router: Router, private dialog: MatDialog, public afAuth: AngularFireAuth) {
     this.period = this.budgetService.getCurrentPeriod();
     this.period.subscribe((period: any) => {
       this.remainingBudget = this.budgetService.getExpenses(period.id).pipe(map(expenses => {
@@ -33,6 +36,12 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  openAddPeriodDialog() {
+    const dialogRef = this.dialog.open(AddPeriodComponent, {
+      width: '450px'
+    });
   }
 
   viewExpenses() {

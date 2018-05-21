@@ -1,27 +1,59 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { map, flatMap, first } from 'rxjs/operators';
+import { map, flatMap } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BudgetService {
 
-  constructor(private db: AngularFirestore) { }
+  constructor(private db: AngularFirestore, private afAuth: AngularFireAuth) {
+  }
 
   get categories() {
-    return [ 'Food', 'Entertainment', 'Donations/Gifts', 'Phone', 'Gas', 'Misc', 'Tesla', 'Household', 'Savings', 'Trip' ];
+    return ['Food', 'Entertainment', 'Donations/Gifts', 'Phone', 'Gas', 'Misc', 'Tesla', 'Household', 'Savings', 'Trip'];
   }
 
   getCurrentPeriod() {
-    return this.db.collection('periods', ref => ref.orderBy('start'))
-      .snapshotChanges()
+    return this.afAuth.user
       .pipe(
-        map(actions => actions.map(a => {
-        const data = a.payload.doc.data();
-        const id = a.payload.doc.id;
-        return { id, ...data };
-      })[actions.length - 1]));
+        flatMap(user => {
+          console.log(user);
+          return this.db.collection('periods', ref => ref.where('uid', '==', user.uid).orderBy('start'))
+            .snapshotChanges()
+            .pipe(
+              map(actions => actions.map(a => {
+                const data = a.payload.doc.data();
+                const id = a.payload.doc.id;
+                console.log(user.uid);
+                return {id, ...data};
+              })[actions.length - 1]));
+        })
+      );
+
+    // return this.db.collection('periods', ref => ref.orderBy('start'))
+    //   .snapshotChanges()
+    //   .pipe(
+    //     map(actions => actions.map(a => {
+    //       const data = a.payload.doc.data();
+    //       const id = a.payload.doc.id;
+    //       console.log('got em lol');
+    //       return {id, ...data};
+    //     })[actions.length - 1]));
+  }
+
+  addPeriod(data) {
+    return this.afAuth.user.pipe(
+      flatMap(user => {
+        return this.db.collection('periods').add({
+          income: data.income,
+          start: new Date(),
+          uid: user.uid
+        });
+      })
+    );
   }
 
   getCurrentExpenses() {
@@ -33,16 +65,21 @@ export class BudgetService {
       .snapshotChanges()
       .pipe(
         map(actions => actions.map(a => {
-        const data = a.payload.doc.data();
-        const id = a.payload.doc.id;
-        return { id, ...data };
-      })));
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return {id, ...data};
+        })));
   }
 
   addExpense(data) {
-    return this.getCurrentPeriod().pipe(flatMap(period => {
-      return this.db.collection('periods').doc(period.id).collection('expenses').add(data);
-    }));
+    return combineLatest(this.afAuth.user, this.getCurrentPeriod()).pipe(
+      flatMap(([user, period]) => {
+        console.log('got em');
+        return this.db.collection('periods').doc(period.id).collection('expenses').add({
+          ...data,
+          uid: user.uid
+        });
+      }));
   }
 
   removeExpense(id) {
@@ -52,19 +89,32 @@ export class BudgetService {
   }
 
   getGoals() {
-    return this.db.collection('goals')
-      .snapshotChanges()
+    return this.afAuth.user
       .pipe(
-        map(actions => actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        }))
+        flatMap(user => {
+          return this.db.collection('goals', ref => ref.where('uid', '==', user.uid))
+            .snapshotChanges()
+            .pipe(
+              map(actions => actions.map(a => {
+                const data = a.payload.doc.data();
+                const id = a.payload.doc.id;
+                return {id, ...data};
+              }))
+            );
+        })
       );
   }
 
   addGoal(data) {
-    return this.db.collection('goals').add(data);
+    return this.afAuth.user
+      .pipe(
+        flatMap(user => {
+          return this.db.collection('goals').add({
+            ...data,
+            uid: user.uid
+          });
+        })
+      );
   }
 
   removeGoal(id) {

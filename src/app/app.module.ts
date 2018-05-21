@@ -23,6 +23,8 @@ import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { GoalsComponent } from './goals/goals.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { AddGoalComponent } from './add-goal/add-goal.component';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AddPeriodComponent } from './add-period/add-period.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/overview' },
@@ -42,7 +44,8 @@ const routes: Routes = [
     AddExpenseComponent,
     GoalsComponent,
     AnalyticsComponent,
-    AddGoalComponent
+    AddGoalComponent,
+    AddPeriodComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +56,7 @@ const routes: Routes = [
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
     AngularFirestoreModule,
+    AngularFireAuthModule,
     FlexLayoutModule,
     LayoutModule,
     MatToolbarModule,
@@ -71,6 +75,6 @@ const routes: Routes = [
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [AddExpenseComponent, AddGoalComponent]
+  entryComponents: [AddExpenseComponent, AddGoalComponent, AddPeriodComponent]
 })
 export class AppModule { }
