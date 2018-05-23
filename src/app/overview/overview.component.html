@@ -1,11 +1,21 @@
 <div fxLayout="column" fxLayoutAlign="center center" class="overview">
+  <div  *ngIf="!noPeriod; then overview else createFirstPeriod"></div>
+</div>
+
+<ng-template #overview>
   <img [src]="(afAuth.user | async)?.photoURL" class="profile" />
 
   <h1>Welcome, {{ (afAuth.user | async)?.displayName }}</h1>
   <h2>You have <span [ngClass]="{ 'positive': (remainingBudget | async) > 0, 'negative': (remainingBudget | async) <= 0 }">${{ remainingBudget | async }} ({{ remainingBudgetPercent | async }}%)</span> left in your budget.</h2>
 
   <a mat-button color="primary" routerLink="/expenses" [disabled]="!loaded">View Expenses</a>
-</div>
+</ng-template>
+
+<ng-template #createFirstPeriod>
+  <img [src]="(afAuth.user | async)?.photoURL" class="profile" />
+  <h1>Welcome, {{ (afAuth.user | async)?.displayName }}</h1>
+  <h2>Please create your first pay period. Use the button at the bottom of your screen.</h2>
+</ng-template>
 
 <button mat-fab style="position: fixed; bottom: 15px; right: 15px; z-index: 10" (click)="openAddPeriodDialog()">
   <mat-icon>add</mat-icon>

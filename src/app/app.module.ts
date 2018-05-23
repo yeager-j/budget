@@ -51,7 +51,7 @@ const routes: Routes = [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp({ ...environment.firebase, projectId: 'budget-8ed96' }),
+    AngularFireModule.initializeApp(environment.firebase),
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),

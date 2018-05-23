@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { map, flatMap } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
+import { combineLatest, of } from 'rxjs';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 @Injectable({
@@ -20,28 +20,20 @@ export class BudgetService {
     return this.afAuth.user
       .pipe(
         flatMap(user => {
-          console.log(user);
+          if (!user) {
+            return of(null);
+          }
+
           return this.db.collection('periods', ref => ref.where('uid', '==', user.uid).orderBy('start'))
             .snapshotChanges()
             .pipe(
               map(actions => actions.map(a => {
                 const data = a.payload.doc.data();
                 const id = a.payload.doc.id;
-                console.log(user.uid);
                 return {id, ...data};
               })[actions.length - 1]));
         })
       );
-
-    // return this.db.collection('periods', ref => ref.orderBy('start'))
-    //   .snapshotChanges()
-    //   .pipe(
-    //     map(actions => actions.map(a => {
-    //       const data = a.payload.doc.data();
-    //       const id = a.payload.doc.id;
-    //       console.log('got em lol');
-    //       return {id, ...data};
-    //     })[actions.length - 1]));
   }
 
   addPeriod(data) {
@@ -74,7 +66,6 @@ export class BudgetService {
   addExpense(data) {
     return combineLatest(this.afAuth.user, this.getCurrentPeriod()).pipe(
       flatMap(([user, period]) => {
-        console.log('got em');
         return this.db.collection('periods').doc(period.id).collection('expenses').add({
           ...data,
           uid: user.uid

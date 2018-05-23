@@ -27,10 +27,12 @@
         <router-outlet></router-outlet>
       </div>
       <ng-template #showLogin>
-        <h2>Welcome!</h2>
-        <p>Please sign in.</p>
+        <div fxLayout="column" fxLayoutAlign="center center" style="height: 90vh;">
+          <h1>Welcome!</h1>
+          <h2>Please sign in.</h2>
 
-        <button mat-raised-button color="primary" (click)="login()">Sign In</button>
+          <button mat-raised-button color="primary" (click)="login()">Sign In</button>
+        </div>
       </ng-template>
     </div>
   </mat-sidenav-content>

@@ -15,6 +15,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class OverviewComponent implements OnInit {
   loaded = false;
+  noPeriod = true;
   period: Observable<any>;
   remainingBudget: Observable<number>;
   remainingBudgetPercent: Subject<number> = new Subject<number>();
@@ -22,14 +23,19 @@ export class OverviewComponent implements OnInit {
   constructor(private budgetService: BudgetService, private router: Router, private dialog: MatDialog, public afAuth: AngularFireAuth) {
     this.period = this.budgetService.getCurrentPeriod();
     this.period.subscribe((period: any) => {
-      this.remainingBudget = this.budgetService.getExpenses(period.id).pipe(map(expenses => {
-        let total = 0;
-        expenses.forEach((expense: any) => total += expense.amount);
-        const remaining = Math.round((period.income - total) * 100) / 100;
+      if (period) {
+        this.noPeriod = false;
+        this.remainingBudget = this.budgetService.getExpenses(period.id).pipe(map(expenses => {
+          let total = 0;
+          expenses.forEach((expense: any) => total += expense.amount);
+          const remaining = Math.round((period.income - total) * 100) / 100;
 
-        this.remainingBudgetPercent.next(Math.round((remaining / period.income) * 100));
-        return remaining;
-      }));
+          this.remainingBudgetPercent.next(Math.round((remaining / period.income) * 100));
+          return remaining;
+        }));
+      } else {
+        this.noPeriod = true;
+      }
 
       this.loaded = true;
     });
